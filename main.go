@@ -81,14 +81,6 @@ func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
     }
 }
 
-func GetMSDOSSTUB(f *os.File) []byte {
-    var b = make([]byte, 64)
-    f.Seek(64, 0)
-    f.Read(b)
-    ResetF(f)
-    return b
-}
-
 // Helpers
 
 func Help() {
@@ -105,6 +97,8 @@ func PrintBytes(b []byte) string {
     for i := 0; i < len(b); i++ {
         if i % 16 == 0 {
             s = s + "\n"
+        } else if i % 8 == 0 {
+            s = s + " "
         }
         s = s + fmt.Sprintf("\\x%02x", b[i])
     }
