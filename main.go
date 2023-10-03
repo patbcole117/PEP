@@ -5,8 +5,10 @@ import (
 )
 
 type HEADER_SECTION struct {
-	Raw		[]byte
-	Vars 	map[string][]byte
+    Title       string
+	Raw		    []byte
+	VarNames 	[]string
+    VarValues   [][]byte
 }
 
 func main() {
@@ -32,28 +34,50 @@ func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
     f.Read(b)
     ResetF(f)
 	return HEADER_SECTION {
+        Title: "IMAGE_DOS_HEADER",
 		Raw: b,
-		Vars: map[string][]byte{
-			"e_magic":		b[0:2],
-			"e_cblp":		b[2:4],
-			"e_cp":			b[4:6],
-			"e_crlc":		b[6:8], 
-			"e_cparhdr":	b[8:10],
-			"e_minalloc":	b[10:12],
-			"e_maxalloc":	b[12:14],
-			"e_ss":			b[14:16],
-			"e_sp":			b[16:18],
-			"e_csum":		b[18:20],
-			"e_ip":			b[20:22],
-			"e_cs":			b[22:24],
-			"e_lfarlc":		b[24:26],
-			"e_ovno":		b[26:28],
-			"e_res":		b[28:36],
-			"e_oemid":		b[36:38],
-			"e_oeminfo":	b[38:40],
-			"e_res2":		b[40:60],
-			"e_lfanew":		b[60:64],
+		VarNames: []string{
+			"e_magic",
+			"e_cblp",
+			"e_cp",
+			"e_crlc",
+			"e_cparhdr",
+			"e_minalloc",
+			"e_maxalloc",
+			"e_ss",
+			"e_sp",
+			"e_csum",
+			"e_ip",
+			"e_cs",
+			"e_lfarlc",
+			"e_ovno",
+			"e_res",
+			"e_oemid",
+			"e_oeminfo",
+			"e_res2",
+			"e_lfanew",
 		},
+        VarValues: [][]byte{
+            b[0:2],
+            b[2:4],
+            b[4:6],
+            b[6:8], 
+            b[8:10],
+            b[10:12],
+            b[12:14],
+            b[14:16],
+            b[16:18],
+            b[18:20],
+            b[20:22],
+            b[22:24],
+            b[24:26],
+            b[26:28],
+            b[28:36],
+            b[36:38],
+            b[38:40],
+            b[40:60],
+            b[60:64],
+        },
 	}
 }
 
@@ -89,9 +113,10 @@ func PrintBytes(b []byte) string {
 }
 
 func (h *HEADER_SECTION) Print() {
+    fmt.Println(h.Title)
     fmt.Println(PrintBytes(h.Raw))
-    for k, v := range h.Vars {
-        fmt.Printf("[+] %s:\t%s,\t\\x%02x\n", k, v, v)
+    for i := range h.VarNames {
+        fmt.Printf("[+] %s:\t%s,\t\\x%02x\n", h.VarNames[i], h.VarValues[i], h.VarValues[i])
     }
 }
 
