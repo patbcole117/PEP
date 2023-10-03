@@ -8,7 +8,7 @@ type HEADER_SECTION struct {
     Title       string
     Raw		    []byte
     VarNames 	[]string
-    VarValues   [][]byte
+    VarBytes    [][]byte
 }
 
 func main() {
