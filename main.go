@@ -110,7 +110,7 @@ func (h *HEADER_SECTION) Print() {
     fmt.Println(h.Title)
     fmt.Println(PrintBytes(h.Raw))
     for i := range h.VarNames {
-        fmt.Printf("[+] %s:\t%s,\t\\x%02x\n", h.VarNames[i], h.VarValues[i], h.VarValues[i])
+        fmt.Printf("[+] %s:\t%s,\t\\x%02x\n", h.VarNames[i], h.VarBytes[i], h.VarBytes[i])
     }
 }
 
