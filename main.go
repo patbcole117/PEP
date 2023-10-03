@@ -57,7 +57,7 @@ func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
             "e_res2",
             "e_lfanew",
         },
-        VarValues: [][]byte{
+        VarBytes: [][]byte{
             b[0:2],
             b[2:4],
             b[4:6],
