@@ -6,8 +6,8 @@ import (
 
 type HEADER_SECTION struct {
     Title       string
-	Raw		    []byte
-	VarNames 	[]string
+    Raw		    []byte
+    VarNames 	[]string
     VarValues   [][]byte
 }
 
@@ -33,30 +33,30 @@ func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
     var b = make([]byte, 64)
     f.Read(b)
     ResetF(f)
-	return HEADER_SECTION {
+    return HEADER_SECTION {
         Title: "IMAGE_DOS_HEADER",
-		Raw: b,
-		VarNames: []string{
-		    "e_magic",
-		    "e_cblp",
-		    "e_cp",
-		    "e_crlc",
-		    "e_cparhdr",
-		    "e_minalloc",
-		    "e_maxalloc",
-		    "e_ss",
-		    "e_sp",
-		    "e_csum",
-		    "e_ip",
-		    "e_cs",
-		    "e_lfarlc",
-		    "e_ovno",
-		    "e_res",
-		    "e_oemid",
-		    "e_oeminfo",
-		    "e_res2",
-		    "e_lfanew",
-		},
+        Raw: b,
+        VarNames: []string{
+            "e_magic",
+            "e_cblp",
+            "e_cp",
+            "e_crlc",
+            "e_cparhdr",
+            "e_minalloc",
+            "e_maxalloc",
+            "e_ss",
+            "e_sp",
+            "e_csum",
+            "e_ip",
+            "e_cs",
+            "e_lfarlc",
+            "e_ovno",
+            "e_res",
+            "e_oemid",
+            "e_oeminfo",
+            "e_res2",
+            "e_lfanew",
+        },
         VarValues: [][]byte{
             b[0:2],
             b[2:4],
@@ -78,7 +78,7 @@ func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
             b[40:60],
             b[60:64],
         },
-	}
+    }
 }
 
 func GetMSDOSSTUB(f *os.File) []byte {
