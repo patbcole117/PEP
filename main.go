@@ -2,14 +2,8 @@ package main
 import (
     "fmt"
     "os"
+    "github.com/patbcole117/PEP/pe"
 )
-
-type HEADER_SECTION struct {
-    Title       string
-    Raw		    []byte
-    VarNames 	[]string
-    VarBytes    [][]byte
-}
 
 func main() {
     var args = os.Args
@@ -24,64 +18,12 @@ func main() {
     }
     defer f.Close()
 
-    h := GetIMAGE_DOS_HEADER(f)
+    h := pe.GetDOSHeader(f)
     h.Print()
     
+    h = pe.GetDOSStub(f)
+    h.Print()
 }
-
-func GetIMAGE_DOS_HEADER(f *os.File) HEADER_SECTION {
-    var b = make([]byte, 64)
-    f.Read(b)
-    ResetF(f)
-    return HEADER_SECTION {
-        Title: "IMAGE_DOS_HEADER",
-        Raw: b,
-        VarNames: []string{
-            "e_magic",
-            "e_cblp",
-            "e_cp",
-            "e_crlc",
-            "e_cparhdr",
-            "e_minalloc",
-            "e_maxalloc",
-            "e_ss",
-            "e_sp",
-            "e_csum",
-            "e_ip",
-            "e_cs",
-            "e_lfarlc",
-            "e_ovno",
-            "e_res",
-            "e_oemid",
-            "e_oeminfo",
-            "e_res2",
-            "e_lfanew",
-        },
-        VarBytes: [][]byte{
-            b[0:2],
-            b[2:4],
-            b[4:6],
-            b[6:8], 
-            b[8:10],
-            b[10:12],
-            b[12:14],
-            b[14:16],
-            b[16:18],
-            b[18:20],
-            b[20:22],
-            b[22:24],
-            b[24:26],
-            b[26:28],
-            b[28:36],
-            b[36:38],
-            b[38:40],
-            b[40:60],
-            b[60:64],
-        },
-    }
-}
-
-// Helpers
 
 func Help() {
     fmt.Println("[?] Please provide a file to parse.")
@@ -104,14 +46,6 @@ func PrintBytes(b []byte) string {
     }
     s = s + "\n"
     return s   
-}
-
-func (h *HEADER_SECTION) Print() {
-    fmt.Println(h.Title)
-    fmt.Println(PrintBytes(h.Raw))
-    for i := range h.VarNames {
-        fmt.Printf("[+] %s:\t%s,\t\\x%02x\n", h.VarNames[i], h.VarBytes[i], h.VarBytes[i])
-    }
 }
 
 func ResetF(f *os.File) int64 {
