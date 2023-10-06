@@ -7,10 +7,10 @@ import (
 )
 
 var (
-    errWriteTooBig 		= errors.New("write too large")
-    errInvalidParam 	= errors.New("param is invalid")
-    errInvalidMachine 	= errors.New("machine type is invalid")
-    PRINT_COLS	= 8
+    errWriteTooBig     = errors.New("write too large")
+    errInvalidParam    = errors.New("param is invalid")
+    errInvalidMachine  = errors.New("machine type is invalid")
+    PRINT_COLS         = 8
 )
 
 func DWORDToI64(b []byte) int64 {
