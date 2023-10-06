@@ -64,7 +64,7 @@ func Get_e_magic(f *os.File) []byte {
 }
 func Set_e_magic(f *os.File, b []byte) (int, error) {
     if len(b) > e_magic_SIZE {
-        return 0, errWriteTooLarge
+        return 0, errWriteTooBig
     }
     return f.WriteAt(b, e_magic_OFFSET)
 }
@@ -134,9 +134,20 @@ func Get_e_res2(f *os.File) [][]byte {
 func Get_e_lfanew(f *os.File) []byte {
     return Get_IMAGE_DOS_HEADER(f)[e_lfanew_OFFSET:e_lfanew_OFFSET + e_lfanew_SIZE]
 }
-
 func Print_IMAGE_DOS_HEADER(f *os.File) {
     b := Get_IMAGE_DOS_HEADER(f)
     fmt.Printf("\n[+] IMAGE_DOS_HEADER\n")
+    fmt.Println(PrintBytes(b))
+}
+
+func Get_IMAGE_DOS_STUB(f *os.File) []byte {
+    b := make([]byte, IMAGE_DOS_STUB_SIZE)
+    f.Seek(IMAGE_DOS_STUB_OFFSET, 0)
+    f.Read(b)
+    return b
+}
+func Print_IMAGE_DOS_STUB(f *os.File) {
+    b := Get_IMAGE_DOS_STUB(f)
+    fmt.Printf("\n[+] IMAGE_DOS_STUB\n")
     fmt.Println(PrintBytes(b))
 }

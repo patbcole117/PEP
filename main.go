@@ -18,7 +18,9 @@ func main() {
     }
     defer f.Close()
 
-    pe.Print_IMAGE_DOS_HEADER(f)
+    s := pe.Get_PE_SIGNATURE(f)
+    fmt.Println(pe.PrintBytes(s))
+    fmt.Println(string(s))
 }
 
 func Help() {

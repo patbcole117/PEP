@@ -1,14 +1,21 @@
 package pe
 
 import (
+	"encoding/binary"
 	"fmt"
 	"errors"
 )
 
 var (
-	errWriteTooLarge = errors.New("write too large")
+	errWriteTooBig 		= errors.New("write too large")
+	errInvalidParam 	= errors.New("param is invalid")
+	errInvalidMachine 	= errors.New("machine type is invalid")
 	PRINT_COLS	= 8
 )
+
+func DWORDToI64(b []byte) int64 {
+	return int64(binary.LittleEndian.Uint32(b))
+}
 
 func PrintBytes(b []byte) string {
 	var s string
@@ -21,5 +28,5 @@ func PrintBytes(b []byte) string {
 		 s = s + fmt.Sprintf("\\x%02x", b[i])
 	 }
 	 s = s + "\n"
-	 return s   
+	 return s
  }
