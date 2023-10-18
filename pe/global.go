@@ -17,6 +17,10 @@ func DWORDToI64(b []byte) int64 {
     return int64(binary.LittleEndian.Uint32(b))
 }
 
+func WORDToI64(b []byte) int64 {
+    return int64(binary.LittleEndian.Uint16(b))
+}
+
 func PrintBytes(b []byte) string {
     var s string
      for i := 0; i < len(b); i++ {
